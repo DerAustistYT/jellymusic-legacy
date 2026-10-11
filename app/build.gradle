@@ -1,0 +1,28 @@
+plugins { id 'com.android.application' }
+
+layout.buildDirectory = file('build-fresh')
+
+android {
+    namespace 'org.jellymusic.legacy'
+    compileSdk 35
+    buildToolsVersion '35.0.0'
+
+    defaultConfig {
+        applicationId 'org.jellymusic.legacy'
+        minSdk 15
+        targetSdk 28
+        versionCode 1
+        versionName '1.0.0'
+    }
+
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation 'org.conscrypt:conscrypt-android:2.5.2'
+}
