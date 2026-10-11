@@ -76,7 +76,7 @@ Normal certificate and hostname validation remain enabled. HTTPS compatibility s
 - The Now Playing heart does not initially read the song's existing favorite state from the server. It starts as an outline for a newly selected track, even if that song is already a favorite.
 - SD-card detection checks common legacy mount folders; availability depends on the device.
 - Offline audio and track information are saved locally, but cover artwork is only cached in memory and may be unavailable without a connection.
-- Android 4.0.3 is the configured minimum. Compatibility on other Android versions and devices can vary. The published 1.0.0 APK passed compilation, alignment, metadata, and signature checks; that release APK has not yet been tested on a device.
+- **Tested on an LG E610 (Optimus L5) running Android 4.0.3**, with music playback confirmed on the device. Compatibility on other Android versions and devices can vary. The published 1.0.0 APK also passed compilation, alignment, metadata, and signature checks.
 
 ## Screenshots
 
