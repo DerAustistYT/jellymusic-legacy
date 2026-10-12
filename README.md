@@ -86,6 +86,10 @@ Certificate chains and hostnames are verified. The native provider uses the devi
 | --- | --- | --- |
 | ![Album library](docs/screenshots/album-library.png) | ![Now Playing](docs/screenshots/now-playing.png) | ![App menu](docs/screenshots/app-menu.png) |
 
+### Small-screen layout (Galaxy Y, 240×320)
+
+![Adaptive Now Playing controls on Galaxy Y](docs/screenshots/galaxy-y-now-playing.png)
+
 ## Build
 
 Open this folder in Android Studio with **JDK 17** and **Android SDK 35** installed. Let Gradle sync, then build the debug APK. Alternatively, use **Gradle 8.9** with `gradle assembleDebug`.
