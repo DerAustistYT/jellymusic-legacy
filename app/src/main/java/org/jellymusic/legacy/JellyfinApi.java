@@ -68,7 +68,7 @@ public class JellyfinApi {
     private String clean(String value) { return value == null ? "" : value.replace("\\", "").replace("\"", ""); }
 
     private JSONObject json(String method, String path, JSONObject body, boolean authenticated) throws Exception {
-        HttpURLConnection c = (HttpURLConnection) new URL(baseUrl + path).openConnection();
+        HttpURLConnection c = org.jellylegacy.net.Network.open(new URL(baseUrl + path));
         c.setConnectTimeout(15000); c.setReadTimeout(20000); c.setRequestMethod(method);
         c.setRequestProperty("Accept", "application/json");
         c.setRequestProperty("Authorization", authorization(authenticated));
@@ -214,7 +214,7 @@ public class JellyfinApi {
 
     public void downloadUrl(String url, File destination) throws Exception {
         android.util.Log.e("JMPlayback", "downloadUrl: " + url);
-        HttpURLConnection c = (HttpURLConnection) new URL(url).openConnection();
+        HttpURLConnection c = org.jellylegacy.net.Network.open(new URL(url));
         c.setConnectTimeout(20000); c.setReadTimeout(60000); c.setInstanceFollowRedirects(true);
         for (java.util.Map.Entry<String,String> h : playbackHeaders().entrySet()) c.setRequestProperty(h.getKey(), h.getValue());
         int code = c.getResponseCode();

@@ -28,6 +28,7 @@ The app remembers the server and session locally. **Log out** clears the login s
 ### Player and playback controls
 
 - An integrated **Now Playing** screen with artwork, song title, elapsed time, total duration, and a seek bar.
+- Adaptive Now Playing layout: artwork fits the available screen height, controls use two rows, and short screens can scroll without losing access to buttons.
 - A persistent bottom mini-player; tap its song title to open Now Playing.
 - **Play/pause**, **previous**, and **next** controls. Previous returns to the preceding queued song; at the beginning of the queue it restarts the current track.
 - Tap a song to queue the currently loaded list and start at that song. Playback automatically advances through the remaining tracks.
@@ -65,17 +66,18 @@ Online tracks are downloaded in full into a temporary cache before playback star
 
 ## HTTPS support
 
-The app bundles **Conscrypt 2.5.2** and installs its TLS provider and HTTPS socket factory at startup, allowing newer TLS connections on older Android devices. This applies to server API requests, cover artwork, and audio downloads.
+The universal APK includes native Conscrypt 2.5.2 for ARMv7, ARM64, x86 and x86_64, plus a CPU-independent Bouncy Castle TLS 1.2 fallback for ARMv6 and devices where the native provider cannot load. This applies to server API requests, cover artwork, and audio downloads. Minimum Android version remains 4.0.3 (API 15).
 
-Normal certificate and hostname validation remain enabled. HTTPS compatibility still depends on the server's TLS configuration and the certificate authorities trusted by the device; old Android trust stores can reject some certificate chains. If Conscrypt initialization fails, the app falls back to the device's existing HTTPS implementation. Explicit HTTP server URLs are supported, but traffic over HTTP is unencrypted.
+Certificate chains and hostnames are verified. The native provider uses the device trust store; the Java fallback uses the bundled Mozilla CA bundle and requires TLS 1.2. Keep the phone clock correct for certificate validation. Explicit HTTP server URLs are supported, but traffic over HTTP is unencrypted. CPU compatibility does not add audio codecs; playback still uses the device decoder.
 
 ## Current limits
 
 - Playback queues contain the currently loaded list; **Load more** does not automatically extend an already started queue. Use **Shuffle all songs** to queue the complete library.
 - Song search returns up to 100 results. An album's track list and a **Download favorites** batch each return up to 1,000 songs; favorite browsing itself is paginated.
-- The Now Playing heart does not initially read the song's existing favorite state from the server. It starts as an outline for a newly selected track, even if that song is already a favorite.
+- The Now Playing favorite button does not initially read the song's existing favorite state from the server. It starts unselected for a newly selected track, even if that song is already a favorite.
 - SD-card detection checks common legacy mount folders; availability depends on the device.
 - Offline audio and track information are saved locally, but cover artwork is only cached in memory and may be unavailable without a connection.
+- **Universal 1.1.0 login and music playback confirmed on a Samsung Galaxy Y GT-S5360 with CM9 Android 4.0.4 (ARMv6).** Library loading and playback startup are slower on this device.
 - **Tested on an LG E610 (Optimus L5) running Android 4.0.3**, with music playback confirmed on the device. Compatibility on other Android versions and devices can vary. The published 1.0.0 APK also passed compilation, alignment, metadata, and signature checks.
 
 ## Screenshots

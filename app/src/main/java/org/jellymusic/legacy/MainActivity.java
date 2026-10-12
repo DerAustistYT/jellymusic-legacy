@@ -75,12 +75,12 @@ public class MainActivity extends Activity {
         root=new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL); root.setBackgroundColor(BG);
         LinearLayout bar=new LinearLayout(this); bar.setGravity(Gravity.CENTER_VERTICAL); bar.setPadding(dp(14),dp(8),dp(10),dp(8)); bar.setBackgroundColor(PANEL);
         title=text("JellyMusic",21,Color.WHITE,true); bar.addView(title,new LinearLayout.LayoutParams(0,dp(48),1));
-        Button overflow=button("⋮"); overflow.setOnClickListener(new View.OnClickListener(){public void onClick(View v){showMenu();}}); bar.addView(overflow,new LinearLayout.LayoutParams(dp(48),dp(44))); root.addView(bar);
+        Button overflow=button("Menu");overflow.setTextSize(12); overflow.setOnClickListener(new View.OnClickListener(){public void onClick(View v){showMenu();}}); bar.addView(overflow,new LinearLayout.LayoutParams(dp(58),dp(44))); root.addView(bar);
         content=new LinearLayout(this); content.setOrientation(LinearLayout.VERTICAL); root.addView(content,new LinearLayout.LayoutParams(-1,0,1));
         LinearLayout player=new LinearLayout(this); player.setGravity(Gravity.CENTER_VERTICAL); player.setPadding(dp(10),dp(3),dp(5),dp(3)); player.setBackgroundColor(Color.rgb(30,30,30)); nowPlaying=text("Nothing playing",13,Color.WHITE,true);nowPlaying.setOnClickListener(new View.OnClickListener(){public void onClick(View v){showNowPlaying();}}); player.addView(nowPlaying,new LinearLayout.LayoutParams(0,dp(42),1)); playButton=button("Play"); playButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v){sendPlayerAction(PlaybackService.ACTION_TOGGLE);}}); player.addView(playButton,new LinearLayout.LayoutParams(dp(68),dp(40))); root.addView(player); setContentView(root);
     }
     private TextView text(String s,float size,int color,boolean bold){TextView v=new TextView(this);v.setText(s);v.setTextSize(size);v.setTextColor(color);v.setGravity(Gravity.CENTER_VERTICAL);if(bold)v.setTypeface(Typeface.DEFAULT,Typeface.BOLD);return v;}
-    private Button button(String s){Button b=new Button(this);b.setText(s);b.setTextColor(Color.WHITE);b.setTextSize(14);return b;}
+    private Button button(String s){Button b=new Button(this);b.setText(s);b.setTextColor(Color.WHITE);b.setTextSize(14);b.setMinWidth(0);b.setMinimumWidth(0);b.setPadding(dp(4),0,dp(4),0);return b;}
     private EditText input(String hint){EditText e=new EditText(this);e.setHint(hint);e.setHintTextColor(MUTED);e.setTextColor(Color.WHITE);e.setSingleLine(true);e.setPadding(dp(10),0,dp(10),0);return e;}
     private void clear(String heading){content.removeAllViews();prevHint=null;prevList=null;title.setText(heading);}
     private void sendPlayerAction(String action){Intent i=new Intent(this,PlaybackService.class);i.setAction(action);startService(i);}
@@ -92,7 +92,7 @@ public class MainActivity extends Activity {
         box.addView(nowPlayingArt,new LinearLayout.LayoutParams(dp(150),dp(150)));
         LinearLayout titleRow=new LinearLayout(this);titleRow.setGravity(Gravity.CENTER_VERTICAL);
         playerTitle=text(currentTrack,17,Color.WHITE,true);playerTitle.setGravity(Gravity.CENTER);titleRow.addView(playerTitle,new LinearLayout.LayoutParams(0,dp(48),1));
-        favoriteButton=button("♡");favoriteButton.setTextSize(20);favoriteButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v){toggleFavorite();}});
+        favoriteButton=button("Fav");favoriteButton.setTextSize(12);favoriteButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v){toggleFavorite();}});
         updateFavoriteButton();titleRow.addView(favoriteButton,new LinearLayout.LayoutParams(dp(48),dp(48)));
         box.addView(titleRow,new LinearLayout.LayoutParams(-1,dp(48)));
         nowSeek=new SeekBar(this);nowSeek.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){public void onStartTrackingTouch(SeekBar s){seekTouching=true;}public void onProgressChanged(SeekBar s,int p,boolean from){if(from&&playerTime!=null)playerTime.setText(formatTime(p));}public void onStopTrackingTouch(SeekBar s){seekTouching=false;Intent i=new Intent(MainActivity.this,PlaybackService.class);i.setAction(PlaybackService.ACTION_SEEK);i.putExtra("position",s.getProgress());startService(i);}});box.addView(nowSeek,new LinearLayout.LayoutParams(-1,dp(38)));
@@ -103,10 +103,12 @@ public class MainActivity extends Activity {
         Button next=button("Next");next.setOnClickListener(new View.OnClickListener(){public void onClick(View v){sendPlayerAction(PlaybackService.ACTION_NEXT);}});
         shuffleButton=button("Shuffle");shuffleButton.setTextColor(shuffleOn?ACCENT:MUTED);shuffleButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v){sendPlayerAction(PlaybackService.ACTION_SHUFFLE);}});
         repeatButton=button(repeatMode==1?"Repeat 1":repeatMode==2?"Repeat All":"Repeat");repeatButton.setTextColor(repeatMode!=0?ACCENT:MUTED);repeatButton.setOnClickListener(new View.OnClickListener(){public void onClick(View v){sendPlayerAction(PlaybackService.ACTION_REPEAT);}});
-        controls.addView(prev,new LinearLayout.LayoutParams(0,dp(48),1));controls.addView(fullPlayButton,new LinearLayout.LayoutParams(0,dp(48),1));controls.addView(next,new LinearLayout.LayoutParams(0,dp(48),1));controls.addView(shuffleButton,new LinearLayout.LayoutParams(0,dp(48),1));controls.addView(repeatButton,new LinearLayout.LayoutParams(0,dp(48),1));
-        box.addView(controls,new LinearLayout.LayoutParams(-1,dp(50)));content.addView(box,new LinearLayout.LayoutParams(-1,-1));
+        controls.addView(prev,new LinearLayout.LayoutParams(0,dp(48),1));controls.addView(fullPlayButton,new LinearLayout.LayoutParams(0,dp(48),1));controls.addView(next,new LinearLayout.LayoutParams(0,dp(48),1));
+        box.addView(controls,new LinearLayout.LayoutParams(-1,dp(48)));
+        LinearLayout modes=new LinearLayout(this);modes.addView(shuffleButton,new LinearLayout.LayoutParams(0,dp(48),1));modes.addView(repeatButton,new LinearLayout.LayoutParams(0,dp(48),1));box.addView(modes,new LinearLayout.LayoutParams(-1,dp(48)));
+        final ImageView adaptiveArt=nowPlayingArt;android.widget.ScrollView scroll=new android.widget.ScrollView(this){protected void onSizeChanged(int w,int h,int oldw,int oldh){super.onSizeChanged(w,h,oldw,oldh);final int side=Math.max(dp(48),Math.min(dp(200),Math.min(w-dp(24),h-dp(218))));post(new Runnable(){public void run(){ViewGroup.LayoutParams art=adaptiveArt.getLayoutParams();if(art.width!=side||art.height!=side){art.width=side;art.height=side;adaptiveArt.setLayoutParams(art);}}});}};scroll.setFillViewport(true);scroll.addView(box,new android.widget.ScrollView.LayoutParams(-1,-2));content.addView(scroll,new LinearLayout.LayoutParams(-1,-1));
     }
-    private void updateFavoriteButton(){favoriteButton.setText(favoriteOn?"♥":"♡");favoriteButton.setTextColor(favoriteOn?Color.rgb(224,64,64):MUTED);}
+    private void updateFavoriteButton(){favoriteButton.setText(favoriteOn?"Fav ✓":"Fav");favoriteButton.setTextColor(favoriteOn?Color.rgb(224,64,64):MUTED);}
     // Only flips the local heart + fires the request: the queue doesn't carry each track's existing
     // IsFavorite state (would mean threading a 5th parallel list through PlaybackService's queue/broadcast
     // alongside url/title/art/id), so the heart always starts outline for a freshly opened track even if

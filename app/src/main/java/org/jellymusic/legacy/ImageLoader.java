@@ -27,7 +27,7 @@ public class ImageLoader {
         AsyncTask<Void,Void,Bitmap> task = new AsyncTask<Void,Void,Bitmap>() {
             protected Bitmap doInBackground(Void... unused) {
                 try {
-                    HttpURLConnection c=(HttpURLConnection)new URL(url).openConnection(); for(Map.Entry<String,String> h:api.playbackHeaders().entrySet())c.setRequestProperty(h.getKey(),h.getValue()); c.setConnectTimeout(10000); c.setReadTimeout(15000);
+                    HttpURLConnection c=org.jellylegacy.net.Network.open(new URL(url)); for(Map.Entry<String,String> h:api.playbackHeaders().entrySet())c.setRequestProperty(h.getKey(),h.getValue()); c.setConnectTimeout(10000); c.setReadTimeout(15000);
                     InputStream in=c.getInputStream();
                     // RGB_565 instead of the default ARGB_8888: cover art has no alpha channel, and this
                     // halves the memory of every cached thumbnail on a device with a very small heap.

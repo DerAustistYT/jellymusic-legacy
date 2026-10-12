@@ -1,0 +1,15 @@
+-dontobfuscate
+-keep class org.jellymusic.legacy.** { *; }
+-keep class org.jellyvideo.legacy.** { *; }
+-keep class org.jellylegacy.net.** { *; }
+-keep class org.conscrypt.** { *; }
+-keep class org.bouncycastle.jce.provider.** { *; }
+-keep class org.bouncycastle.jcajce.provider.** { *; }
+-dontwarn javax.naming.**
+-dontwarn javax.security.**
+-dontwarn java.lang.management.**
+-dontwarn org.conscrypt.ConscryptEngineSocket
+-dontwarn com.android.org.conscrypt.**
+-dontwarn org.apache.harmony.xnet.provider.jsse.**
+-dontwarn sun.**
+-dontwarn dalvik.system.**
