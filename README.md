@@ -105,3 +105,7 @@ Enter your own Jellyfin server address in the app. No personal server address, l
 ## AI assistance
 
 OpenAI Codex and Anthropic Claude assisted with development and preparation of this project.
+
+## Other editions
+
+See [the four-app catalog](https://github.com/DerAustistYT/jellyfin-legacy-clients) for music/video clients and JellyStone editions for Android 1.5+.
